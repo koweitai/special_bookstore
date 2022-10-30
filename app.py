@@ -50,7 +50,7 @@ def getSpecificBookstore(items, county, districts):
         name = item['cityName']
         # 如果 name 不是我們選取的 county 則跳過
         # hint: 用 if-else 判斷並用 continue 跳過
-        if name != county:
+        if county not in name:
             continue
         # districts 是一個 list 結構，判斷 list 每個值是否出現在 name 之中
         # 判斷該項目是否已經出現在 specificBookstoreList 之中，沒有則放入
@@ -58,9 +58,7 @@ def getSpecificBookstore(items, county, districts):
         for district in districts:
             if district not in name:
                 continue
-        if districts not in specificBookstoreList:
-            specificBookstoreList.append(districts)
-
+            specificBookstoreList.append(item)
     return specificBookstoreList
 
 def getBookstoreInfo(items):
@@ -71,16 +69,16 @@ def getBookstoreInfo(items):
         expander.metric('hitRate', item['hitRate'])
         expander.subheader('Introduction')
         # 用 st.write 呈現書店的 Introduction
-        st.write(item['intro'])
+        expander.write(item['intro'])
         expander.subheader('Address')
         # 用 st.write 呈現書店的 Address
-        st.write(item['address'])
+        expander.write(item['address'])
         expander.subheader('Open Time')
         # 用 st.write 呈現書店的 Open Time
-        st.write(item['openTime'])
+        expander.write(item['openTime'])
         expander.subheader('Email')
         # 用 st.write 呈現書店的 Email
-        st.write(item['email'])
+        expander.write(item['email'])
         # 將該 expander 放到 expanderList 中
         expanderList.append(expander)
     return expanderList
@@ -103,9 +101,9 @@ def app():
     st.write(f'總共有{num}項結果')
     # 幫 specificBookstore 進行排序
     # hint: 使用 lambda 和 sort
-    
+
     # 呼叫 getBookstoreInfo 並將回傳值賦值給變數 bookstoreInfo
-    bookstoreInfo = getBookstoreInfo(bookstoreList)
+    bookstoreInfo = getBookstoreInfo(specificBookstore)
 
 
 if __name__ == '__main__':
